@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Sentry partnered with General Motors to bring edge-native driver intelligence to the Super Cruise safety ecosystem—and reached a five-figure exit.">
   <title>Sentry × GM — Driver intelligence for Super Cruise</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306090b'/%3E%3Cpath d='M16 19h32v7H24v5h19a7 7 0 0 1 7 7v7H16v-7h26v-5H23a7 7 0 0 1-7-7v-7Z' fill='%23b9ff4b'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23050505'/%3E%3Cpath d='M16 19h32v7H24v5h19a7 7 0 0 1 7 7v7H16v-7h26v-5H23a7 7 0 0 1-7-7v-7Z' fill='%23ffffff'/%3E%3C/svg%3E">
   <style>
     :root {
-      --ink: #06090b;
-      --ink-2: #0d1215;
-      --panel: #11181c;
-      --line: rgba(255,255,255,.14);
-      --muted: #9aa6ad;
-      --paper: #f2f5ef;
-      --signal: #b9ff4b;
-      --ice: #a7e8ff;
-      --orange: #ff8a45;
+      --ink: #050505;
+      --ink-2: #0a0a0a;
+      --panel: #101010;
+      --line: rgba(255,255,255,.18);
+      --muted: #a3a3a3;
+      --paper: #f5f5f5;
+      --signal: #ffffff;
+      --ice: #d4d4d4;
+      --orange: #bcbcbc;
       --max: 1240px;
     }
 
@@ -25,11 +25,7 @@
     body {
       margin: 0;
       color: var(--paper);
-      background:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
-        var(--ink);
-      background-size: 48px 48px;
+      background: var(--ink);
       font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 16px;
       line-height: 1.55;
@@ -45,7 +41,7 @@
       align-items: center;
       gap: 10px;
       margin: 0 0 18px;
-      color: var(--signal);
+      color: #d8d8d8;
       font: 700 .76rem/1.2 "SFMono-Regular", Consolas, monospace;
       letter-spacing: .15em;
       text-transform: uppercase;
@@ -57,53 +53,56 @@
       top: 0;
       z-index: 20;
       border-bottom: 1px solid var(--line);
-      background: rgba(6,9,11,.84);
+      background: rgba(5,5,5,.9);
       backdrop-filter: blur(18px);
     }
     .nav-inner { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
     .brand-mark {
       width: 32px; height: 32px; display: grid; place-items: center;
-      border: 1px solid rgba(185,255,75,.55); color: var(--signal);
+      border: 1px solid rgba(255,255,255,.65); color: #fff;
       font: 900 1rem/1 monospace;
     }
     .nav-links { display: flex; align-items: center; gap: 28px; }
     .nav-links a { color: #c4cdd1; text-decoration: none; font-size: .9rem; }
-    .nav-links a:hover, .nav-links a:focus-visible { color: var(--signal); }
+    .nav-links a:hover, .nav-links a:focus-visible { color: #fff; }
     .nav-status { display: inline-flex; align-items: center; gap: 8px; }
-    .nav-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 14px var(--signal); }
+    .nav-status::before { content: ""; width: 7px; height: 7px; background: #fff; }
 
     .hero { min-height: 760px; display: flex; align-items: center; padding: 104px 0 84px; border-bottom: 1px solid var(--line); }
     .hero-grid { display: grid; grid-template-columns: minmax(0, 1.22fr) minmax(340px, .78fr); gap: 72px; align-items: center; }
-    h1 { margin: 0; max-width: 800px; font-size: clamp(4rem, 9vw, 8.4rem); line-height: .88; letter-spacing: -.07em; font-weight: 860; }
-    h1 .outline { color: transparent; -webkit-text-stroke: 1.5px rgba(242,245,239,.6); }
-    .hero-copy { max-width: 650px; margin: 34px 0 0; color: #b8c2c7; font-size: clamp(1.05rem, 1.8vw, 1.32rem); }
+    h1 { margin: 0; max-width: 800px; font-size: clamp(3.8rem, 7.8vw, 7.1rem); line-height: .9; letter-spacing: -.065em; font-weight: 820; }
+    h1 .outline { color: #8b8b8b; }
+    .hero-copy { max-width: 650px; margin: 34px 0 0; color: #b5b5b5; font-size: clamp(1.05rem, 1.8vw, 1.28rem); }
     .hero-copy strong { color: var(--paper); font-weight: 650; }
     .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 38px; }
     .button { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 20px; border: 1px solid var(--signal); background: var(--signal); color: var(--ink); text-decoration: none; font-weight: 800; }
     .button.alt { background: transparent; border-color: var(--line); color: var(--paper); }
     .button:hover, .button:focus-visible { transform: translateY(-2px); }
 
-    .cluster { position: relative; min-height: 460px; }
-    .radar {
-      position: absolute; inset: 10px 0 0 auto; width: min(100%, 450px); aspect-ratio: 1;
-      border: 1px solid rgba(167,232,255,.35); border-radius: 50%; overflow: hidden;
-      background: radial-gradient(circle, transparent 0 19%, rgba(167,232,255,.14) 19.5% 20%, transparent 20.5% 39%, rgba(167,232,255,.12) 39.5% 40%, transparent 40.5% 59%, rgba(167,232,255,.1) 59.5% 60%, transparent 60.5%);
-    }
-    .radar::before, .radar::after { content: ""; position: absolute; background: rgba(167,232,255,.18); }
-    .radar::before { width: 1px; height: 100%; left: 50%; }
-    .radar::after { width: 100%; height: 1px; top: 50%; }
-    .sweep { position: absolute; inset: -1px; border-radius: 50%; background: conic-gradient(from 20deg, transparent 0 71%, rgba(185,255,75,.28) 86%, transparent 87%); animation: sweep 6s linear infinite; }
-    .core { position: absolute; inset: 50% auto auto 50%; width: 104px; height: 104px; transform: translate(-50%,-50%); border: 1px solid var(--signal); display: grid; place-items: center; background: rgba(6,9,11,.92); z-index: 2; }
-    .core b { color: var(--signal); font-size: 1.85rem; line-height: 1; }
-    .core small { color: var(--muted); display: block; text-align: center; margin-top: 8px; font-size: .62rem; letter-spacing: .12em; }
-    .reading { position: absolute; z-index: 3; min-width: 152px; padding: 13px 15px; border: 1px solid var(--line); background: rgba(13,18,21,.92); box-shadow: 0 18px 55px rgba(0,0,0,.35); }
-    .reading span { display: block; color: var(--muted); font-size: .67rem; letter-spacing: .1em; text-transform: uppercase; }
-    .reading strong { display: block; margin-top: 3px; font-size: 1rem; }
-    .r1 { top: 12%; left: 0; }
-    .r2 { right: -1%; top: 33%; }
-    .r3 { bottom: 6%; left: 10%; }
-    .signal-line { display: inline-block; width: 34px; height: 7px; margin-right: 8px; background: linear-gradient(90deg, var(--signal) 0 20%, transparent 20% 30%, var(--signal) 30% 60%, transparent 60% 70%, var(--signal) 70%); }
+    .simulator { border: 1px solid rgba(255,255,255,.42); background: #090909; box-shadow: 0 28px 80px rgba(0,0,0,.36); }
+    .sim-header { min-height: 54px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); color: #9d9d9d; font: 700 .7rem/1 monospace; letter-spacing: .11em; }
+    .sim-state { display: inline-flex; align-items: center; gap: 9px; color: #fff; }
+    .sim-state::before { content: ""; width: 7px; height: 7px; background: #fff; }
+    .sim-plot { padding: 18px; }
+    .sim-row { display: grid; grid-template-columns: 64px minmax(0,1fr) 68px; gap: 14px; align-items: center; min-height: 64px; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .sim-row:last-child { border-bottom: 0; }
+    .sim-label { color: #818181; font: 700 .64rem/1 monospace; letter-spacing: .1em; }
+    .sim-value { color: #fff; text-align: right; font: 700 .72rem/1 monospace; }
+    .signal-chart { position: relative; height: 46px; overflow: hidden; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 100% 15px, 28px 100%; }
+    .signal-chart::after { content: ""; position: absolute; top: 0; bottom: 0; left: 72%; width: 1px; background: rgba(255,255,255,.45); }
+    .trace { width: 145%; height: 100%; animation: telemetry 7s linear infinite; }
+    .trace path { fill: none; stroke: #fff; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+    .risk-track { position: relative; height: 8px; background: #262626; }
+    .risk-fill { display: block; height: 100%; width: 12%; background: #fff; transition: width .7s ease; }
+    .sim-summary { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--line); }
+    .sim-stat { padding: 16px 18px; border-right: 1px solid var(--line); }
+    .sim-stat:last-child { border-right: 0; }
+    .sim-stat span { display: block; color: #747474; font: 700 .61rem/1 monospace; letter-spacing: .11em; }
+    .sim-stat strong { display: block; margin-top: 8px; font-size: 1.02rem; }
+    .sim-timeline { position: relative; height: 30px; border-top: 1px solid var(--line); overflow: hidden; }
+    .sim-timeline::before { content: ""; position: absolute; left: 18px; right: 18px; top: 14px; height: 1px; background: #444; }
+    .sim-timeline::after { content: ""; position: absolute; top: 10px; left: 18px; width: 8px; height: 8px; background: #fff; animation: playhead 7s linear infinite; }
 
     .metrics { border-bottom: 1px solid var(--line); }
     .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
@@ -115,34 +114,36 @@
     section { padding: 118px 0; border-bottom: 1px solid var(--line); }
     .section-head { display: grid; grid-template-columns: .72fr 1.28fr; gap: 70px; align-items: start; margin-bottom: 58px; }
     h2 { margin: 0; font-size: clamp(2.5rem, 5vw, 5.2rem); line-height: .98; letter-spacing: -.055em; }
-    .lede { margin: 8px 0 0; color: #b8c2c7; font-size: 1.17rem; max-width: 650px; }
+    .lede { margin: 8px 0 0; color: #b5b5b5; font-size: 1.17rem; max-width: 650px; }
 
-    .integration { background: linear-gradient(135deg, rgba(167,232,255,.07), transparent 46%); }
-    .ecosystem { padding: 84px 0; background: #071525; }
+    .integration { background: #080808; }
+    .ecosystem { padding: 84px 0; background: #0a0a0a; }
     .ecosystem-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 28px; }
     .ecosystem-head h2 { font-size: clamp(2.2rem, 4.8vw, 4.6rem); max-width: 760px; }
-    .ecosystem-note { max-width: 390px; margin: 0; color: #a9b7c5; }
-    .logo-wall { margin: 0; border: 1px solid rgba(255,255,255,.12); background: #071525; overflow: hidden; }
-    .logo-wall img { display: block; width: 100%; height: auto; }
-    .logo-wall figcaption { padding: 16px 18px; border-top: 1px solid rgba(255,255,255,.1); color: #8fa0ae; font-size: .78rem; }
+    .ecosystem-note { max-width: 390px; margin: 0; color: #a5a5a5; }
+    .logo-wall { margin: 0; border: 1px solid rgba(255,255,255,.2); background: #080808; overflow: hidden; }
+    .logo-wall img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.12); opacity: .88; }
+    .logo-wall figcaption { padding: 16px 18px; border-top: 1px solid rgba(255,255,255,.1); color: #858585; font-size: .78rem; }
     .gm-stage {
       display: grid;
       grid-template-columns: .9fr 1.1fr;
       min-height: 440px;
       margin-bottom: 68px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: linear-gradient(135deg, #0067b9 0%, #087bd1 46%, #082d4c 100%);
+      border: 1px solid #fff;
+      background: #f2f2f2;
+      color: #050505;
       overflow: hidden;
     }
-    .gm-lockup { padding: 46px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid rgba(255,255,255,.2); }
+    .gm-lockup { padding: 46px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid rgba(0,0,0,.28); }
     .gm-lockup .partnership-label { font: 750 .78rem/1.2 monospace; letter-spacing: .14em; text-transform: uppercase; }
     .gm-lockup .gm-type { margin: 0; font-size: clamp(4rem, 8vw, 8rem); line-height: .78; letter-spacing: -.08em; }
-    .gm-lockup .times { color: var(--signal); }
+    .gm-lockup .times { color: #777; }
     .gm-story { padding: 52px; display: flex; flex-direction: column; justify-content: center; }
     .gm-story h3 { max-width: 700px; margin: 0; font-size: clamp(2rem, 4vw, 4.3rem); line-height: .98; letter-spacing: -.055em; }
-    .gm-story p { max-width: 650px; margin: 24px 0 0; color: #d9e9f5; font-size: 1.08rem; }
+    .gm-story .eyebrow { color: #111; }
+    .gm-story p { max-width: 650px; margin: 24px 0 0; color: #333; font-size: 1.08rem; }
     .gm-proof { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
-    .gm-proof span { padding: 9px 12px; border: 1px solid rgba(255,255,255,.28); font: 700 .7rem/1 monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .gm-proof span { padding: 9px 12px; border: 1px solid rgba(0,0,0,.35); font: 700 .7rem/1 monospace; letter-spacing: .08em; text-transform: uppercase; }
     .flow { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); }
     .flow-step { min-height: 260px; padding: 28px; position: relative; border-right: 1px solid var(--line); }
     .flow-step:last-child { border-right: 0; }
@@ -151,8 +152,8 @@
     .flow-step p { margin: 0; color: var(--muted); font-size: .92rem; }
     .flow-step::after { content: "→"; position: absolute; right: -15px; top: 50%; z-index: 2; width: 30px; height: 30px; display: grid; place-items: center; background: var(--ink); color: var(--ice); }
     .flow-step:last-child::after { display: none; }
-    .boundary { margin-top: 22px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; border-left: 3px solid var(--orange); background: rgba(255,138,69,.07); color: #c7ced1; }
-    .boundary strong { color: var(--orange); white-space: nowrap; }
+    .boundary { margin-top: 22px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; border-left: 3px solid #fff; background: #111; color: #c6c6c6; }
+    .boundary strong { color: #fff; white-space: nowrap; }
 
     .tech-layout { display: grid; grid-template-columns: minmax(300px,.72fr) minmax(0,1.28fr); gap: 36px; align-items: start; }
     .stack-card { position: sticky; top: 100px; padding: 34px; background: var(--signal); color: var(--ink); }
@@ -178,7 +179,7 @@
     .founders-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .founder { min-width: 0; border: 1px solid var(--line); background: linear-gradient(160deg, rgba(255,255,255,.055), transparent 60%); overflow: hidden; }
     .founder-photo-frame { aspect-ratio: 4 / 5; overflow: hidden; background: #10171b; border-bottom: 1px solid var(--line); }
-    .founder-photo { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .founder-photo { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.04); transition: transform .5s ease; }
     .founder:hover .founder-photo { transform: scale(1.025); }
     .founder-photo.aashrith { object-position: left center; }
     .founder-photo.ketav { object-position: center 22%; }
@@ -194,8 +195,9 @@
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
     .reveal.visible { opacity: 1; transform: none; }
-    @keyframes sweep { to { transform: rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .sweep { animation: none; } .reveal { opacity: 1; transform: none; transition: none; } }
+    @keyframes telemetry { from { transform: translateX(0); } to { transform: translateX(-29%); } }
+    @keyframes playhead { from { left: 18px; } to { left: calc(100% - 26px); } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .trace, .sim-timeline::after { animation: none; } .reveal { opacity: 1; transform: none; transition: none; } }
 
     @media (max-width: 900px) {
       .nav-links a:not(.nav-status) { display: none; }
@@ -204,8 +206,8 @@
       .ecosystem-head { display: block; }
       .ecosystem-note { margin-top: 18px; }
       .gm-stage { grid-template-columns: 1fr; }
-      .gm-lockup { min-height: 310px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
-      .cluster { width: min(100%, 520px); margin-inline: auto; }
+      .gm-lockup { min-height: 310px; border-right: 0; border-bottom: 1px solid rgba(0,0,0,.25); }
+      .simulator { width: min(100%, 620px); margin-inline: auto; }
       .metric-grid, .flow { grid-template-columns: repeat(2, 1fr); }
       .metric:nth-child(3) { border-left: 1px solid var(--line); }
       .flow-step:nth-child(2) { border-right: 0; }
@@ -223,9 +225,10 @@
       .nav-status { font-size: .72rem; }
       h1 { font-size: clamp(3.5rem, 20vw, 5.3rem); }
       section { padding: 84px 0; }
-      .cluster { min-height: 390px; }
-      .reading { min-width: 136px; padding: 10px 12px; }
-      .r2 { right: -3%; }
+      .sim-row { grid-template-columns: 52px minmax(0,1fr) 58px; gap: 9px; }
+      .sim-plot { padding: 12px; }
+      .sim-stat { padding: 14px 11px; }
+      .sim-stat strong { font-size: .86rem; }
       .metric-grid, .flow { grid-template-columns: 1fr; }
       .metric, .metric:first-child, .metric:nth-child(3) { border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); }
       .metric:last-child { border-bottom: 0; }
@@ -271,11 +274,16 @@
             <a class="button alt" href="#story">Read the story</a>
           </div>
         </div>
-        <div class="cluster" aria-label="Live driver state visualization">
-          <div class="radar"><div class="sweep"></div><div class="core"><div><b>94</b><small>QUALITY</small></div></div></div>
-          <div class="reading r1 mono"><span>Gaze vector</span><strong><i class="signal-line"></i>FORWARD</strong></div>
-          <div class="reading r2 mono"><span>Risk band</span><strong>NORMAL</strong></div>
-          <div class="reading r3 mono"><span>Integration</span><strong>GM / SUPER CRUISE</strong></div>
+        <div class="simulator" aria-label="Animated driver-state telemetry simulation">
+          <div class="sim-header"><span>DRIVER STATE / LIVE MODEL 04</span><strong class="sim-state" id="sim-state">ATTENTIVE</strong></div>
+          <div class="sim-plot">
+            <div class="sim-row"><span class="sim-label">GAZE</span><div class="signal-chart"><svg class="trace" viewBox="0 0 420 46" preserveAspectRatio="none" aria-hidden="true"><path id="gaze-trace" d="M0 23 L25 22 L50 24 L75 21 L100 23 L125 22 L150 24 L175 22 L200 23 L225 21 L250 23 L275 22 L300 24 L325 22 L350 23 L375 21 L400 23 L420 22"/></svg></div><strong class="sim-value" id="sim-gaze">FORWARD</strong></div>
+            <div class="sim-row"><span class="sim-label">EYES</span><div class="signal-chart"><svg class="trace" viewBox="0 0 420 46" preserveAspectRatio="none" aria-hidden="true"><path id="eye-trace" d="M0 13 L20 14 L28 36 L38 14 L62 13 L82 14 L91 35 L101 14 L130 13 L158 14 L168 34 L178 14 L210 13 L240 14 L250 36 L260 14 L292 13 L322 14 L332 34 L342 14 L375 13 L405 14 L415 35 L420 14"/></svg></div><strong class="sim-value" id="sim-eyes">OPEN</strong></div>
+            <div class="sim-row"><span class="sim-label">YAW</span><div class="signal-chart"><svg class="trace" viewBox="0 0 420 46" preserveAspectRatio="none" aria-hidden="true"><path id="yaw-trace" d="M0 24 C35 20 55 26 85 23 S135 22 165 24 S220 21 250 23 S300 26 330 22 S385 20 420 23"/></svg></div><strong class="sim-value" id="sim-yaw">+02°</strong></div>
+            <div class="sim-row"><span class="sim-label">RISK</span><div class="risk-track" aria-hidden="true"><span class="risk-fill" id="risk-fill"></span></div><strong class="sim-value" id="sim-risk">12 / 100</strong></div>
+          </div>
+          <div class="sim-summary"><div class="sim-stat"><span>QUALITY</span><strong id="sim-quality">0.94</strong></div><div class="sim-stat"><span>LATENCY</span><strong>22 ms</strong></div><div class="sim-stat"><span>OUTPUT</span><strong id="sim-output">MONITOR</strong></div></div>
+          <div class="sim-timeline" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -306,7 +314,7 @@
       <div class="wrap">
         <div class="gm-stage reveal">
           <div class="gm-lockup"><span class="partnership-label">Automotive partnership</span><h2 class="gm-type">GM<br><span class="times">×</span> SENTRY</h2><span class="mono">SUPER CRUISE / DRIVER STATE</span></div>
-          <div class="gm-story"><p class="eyebrow" style="color:#fff">The defining integration</p><h3>Human-state intelligence for hands-free driving.</h3><p>Our work with General Motors connected Sentry’s on-device understanding of the driver to the Super Cruise experience. We designed a fast, privacy-aware signal layer that could communicate when attention changed—without exporting continuous cabin video.</p><div class="gm-proof"><span>On-device inference</span><span>Confidence-scored state</span><span>Privacy-first events</span></div></div>
+          <div class="gm-story"><p class="eyebrow">The defining integration</p><h3>Human-state intelligence for hands-free driving.</h3><p>Our work with General Motors connected Sentry’s on-device understanding of the driver to the Super Cruise experience. We designed a fast, privacy-aware signal layer that could communicate when attention changed—without exporting continuous cabin video.</p><div class="gm-proof"><span>On-device inference</span><span>Confidence-scored state</span><span>Privacy-first events</span></div></div>
         </div>
         <div class="section-head reveal">
           <div><p class="eyebrow">GM partnership / Super Cruise</p><h2>From cabin signal to safer handoff.</h2></div>
@@ -383,6 +391,42 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const simulationStates = [
+      {
+        state: 'ATTENTIVE', gaze: 'FORWARD', eyes: 'OPEN', yaw: '+02°', risk: 12, quality: '0.94', output: 'MONITOR',
+        gazePath: 'M0 23 L25 22 L50 24 L75 21 L100 23 L125 22 L150 24 L175 22 L200 23 L225 21 L250 23 L275 22 L300 24 L325 22 L350 23 L375 21 L400 23 L420 22',
+        eyePath: 'M0 13 L20 14 L28 36 L38 14 L62 13 L82 14 L91 35 L101 14 L130 13 L158 14 L168 34 L178 14 L210 13 L240 14 L250 36 L260 14 L292 13 L322 14 L332 34 L342 14 L375 13 L405 14 L415 35 L420 14',
+        yawPath: 'M0 24 C35 20 55 26 85 23 S135 22 165 24 S220 21 250 23 S300 26 330 22 S385 20 420 23'
+      },
+      {
+        state: 'GAZE DEVIATION', gaze: 'DOWN / LEFT', eyes: 'OPEN', yaw: '-18°', risk: 46, quality: '0.92', output: 'WARN',
+        gazePath: 'M0 22 L35 23 L70 21 L105 24 L140 22 L175 23 L205 27 L230 31 L255 36 L280 38 L305 37 L330 39 L360 38 L390 37 L420 39',
+        eyePath: 'M0 14 L30 14 L42 31 L54 15 L88 14 L120 15 L132 30 L144 15 L180 14 L214 15 L226 29 L238 15 L280 14 L320 15 L332 30 L344 15 L382 14 L420 15',
+        yawPath: 'M0 23 C45 22 82 24 120 22 S185 24 220 23 C250 23 276 27 300 32 S360 38 420 37'
+      },
+      {
+        state: 'RECOVERING', gaze: 'CENTERING', eyes: 'OPEN', yaw: '-04°', risk: 24, quality: '0.95', output: 'CLEARING',
+        gazePath: 'M0 38 C55 38 95 34 135 31 S210 26 255 24 S335 23 420 22',
+        eyePath: 'M0 14 L22 14 L31 35 L41 14 L72 14 L96 14 L105 34 L115 14 L148 14 L176 14 L185 35 L195 14 L232 14 L260 14 L269 34 L279 14 L320 14 L350 14 L359 35 L369 14 L420 14',
+        yawPath: 'M0 37 C55 37 95 34 135 31 S210 27 255 25 S335 24 420 23'
+      }
+    ];
+    const sim = {
+      state: document.getElementById('sim-state'), gaze: document.getElementById('sim-gaze'), eyes: document.getElementById('sim-eyes'),
+      yaw: document.getElementById('sim-yaw'), risk: document.getElementById('sim-risk'), quality: document.getElementById('sim-quality'),
+      output: document.getElementById('sim-output'), fill: document.getElementById('risk-fill'), gazePath: document.getElementById('gaze-trace'),
+      eyePath: document.getElementById('eye-trace'), yawPath: document.getElementById('yaw-trace')
+    };
+    let simIndex = 0;
+    function renderSimulation(next) {
+      sim.state.textContent = next.state; sim.gaze.textContent = next.gaze; sim.eyes.textContent = next.eyes; sim.yaw.textContent = next.yaw;
+      sim.risk.textContent = `${next.risk} / 100`; sim.quality.textContent = next.quality; sim.output.textContent = next.output;
+      sim.fill.style.width = `${next.risk}%`; sim.gazePath.setAttribute('d', next.gazePath); sim.eyePath.setAttribute('d', next.eyePath); sim.yawPath.setAttribute('d', next.yawPath);
+    }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.setInterval(() => { simIndex = (simIndex + 1) % simulationStates.length; renderSimulation(simulationStates[simIndex]); }, 3200);
+    }
   </script>
 </body>
 </html>
