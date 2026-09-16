@@ -176,7 +176,14 @@
     .milestone span { color: var(--signal); font: 700 .71rem/1.4 monospace; }
 
     .founders-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .founder { min-height: 290px; padding: 28px; border: 1px solid var(--line); background: linear-gradient(160deg, rgba(255,255,255,.055), transparent 60%); display: flex; flex-direction: column; justify-content: space-between; }
+    .founder { min-width: 0; border: 1px solid var(--line); background: linear-gradient(160deg, rgba(255,255,255,.055), transparent 60%); overflow: hidden; }
+    .founder-photo-frame { aspect-ratio: 4 / 5; overflow: hidden; background: #10171b; border-bottom: 1px solid var(--line); }
+    .founder-photo { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .founder:hover .founder-photo { transform: scale(1.025); }
+    .founder-photo.aashrith { object-position: left center; }
+    .founder-photo.ketav { object-position: center 22%; }
+    .founder-photo.saatvik { object-position: center 30%; }
+    .founder-copy { min-height: 180px; padding: 26px 28px 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 42px; }
     .founder-id { color: var(--muted); font: 700 .7rem/1 monospace; }
     .founder h3 { margin: 0; font-size: clamp(1.45rem, 3vw, 2.2rem); line-height: 1.05; letter-spacing: -.04em; }
     .founder p { margin: 12px 0 0; color: var(--muted); }
@@ -206,7 +213,9 @@
       .flow-step:nth-child(2)::after { display: none; }
       .stack-card { position: static; }
       .founders-grid { grid-template-columns: 1fr; }
-      .founder { min-height: 220px; }
+      .founder { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); }
+      .founder-photo-frame { aspect-ratio: 1 / 1.05; border-bottom: 0; border-right: 1px solid var(--line); }
+      .founder-copy { min-height: 0; }
     }
     @media (max-width: 580px) {
       .wrap { width: min(calc(100% - 28px), var(--max)); }
@@ -230,6 +239,8 @@
       .exit-card { min-height: 340px; padding: 28px; }
       .gm-lockup, .gm-story { padding: 28px; }
       .gm-stage { min-height: 0; }
+      .founder { display: block; }
+      .founder-photo-frame { aspect-ratio: 4 / 5; border-right: 0; border-bottom: 1px solid var(--line); }
       .footer-inner { flex-direction: column; }
     }
   </style>
@@ -350,9 +361,9 @@
           <p class="lede">Sentry was co-founded by a team that moved fluidly across computer vision, embedded systems, mobile integration, product, and go-to-market.</p>
         </div>
         <div class="founders-grid reveal">
-          <article class="founder"><span class="founder-id">CO-FOUNDER / 01</span><div><h3>Aashrith<br>Tatineni</h3><p>Product &amp; systems</p></div></article>
-          <article class="founder"><span class="founder-id">CO-FOUNDER / 02</span><div><h3>Saatvik<br>Santosh</h3><p>Vision &amp; intelligence</p></div></article>
-          <article class="founder"><span class="founder-id">CO-FOUNDER / 03</span><div><h3>Ketav<br>Karthikeyan</h3><p>Platform &amp; integration</p></div></article>
+          <article class="founder"><div class="founder-photo-frame"><img class="founder-photo aashrith" src="aashrith-tatineni.png" alt="Aashrith Tatineni wearing a white shirt"></div><div class="founder-copy"><span class="founder-id">CO-FOUNDER / 01</span><div><h3>Aashrith<br>Tatineni</h3><p>Product &amp; systems</p></div></div></article>
+          <article class="founder"><div class="founder-photo-frame"><img class="founder-photo saatvik" src="saatvik-santosh.png" alt="Saatvik Santosh standing in front of a brick wall"></div><div class="founder-copy"><span class="founder-id">CO-FOUNDER / 02</span><div><h3>Saatvik<br>Santosh</h3><p>Vision &amp; intelligence</p></div></div></article>
+          <article class="founder"><div class="founder-photo-frame"><img class="founder-photo ketav" src="ketav-karthikeyan.png" alt="Ketav Karthikeyan wearing a suit"></div><div class="founder-copy"><span class="founder-id">CO-FOUNDER / 03</span><div><h3>Ketav<br>Karthikeyan</h3><p>Platform &amp; integration</p></div></div></article>
         </div>
       </div>
     </section>
