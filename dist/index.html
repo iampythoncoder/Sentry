@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sentry built an on-device driver safety intelligence layer, integrated with Super Cruise, and reached a five-figure exit.">
+  <title>Sentry — Driver intelligence, built at the edge</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306090b'/%3E%3Cpath d='M16 19h32v7H24v5h19a7 7 0 0 1 7 7v7H16v-7h26v-5H23a7 7 0 0 1-7-7v-7Z' fill='%23b9ff4b'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #06090b;
+      --ink-2: #0d1215;
+      --panel: #11181c;
+      --line: rgba(255,255,255,.14);
+      --muted: #9aa6ad;
+      --paper: #f2f5ef;
+      --signal: #b9ff4b;
+      --ice: #a7e8ff;
+      --orange: #ff8a45;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--paper);
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        var(--ink);
+      background-size: 48px 48px;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+    .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--signal);
+      font: 700 .76rem/1.2 "SFMono-Regular", Consolas, monospace;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(6,9,11,.84);
+      backdrop-filter: blur(18px);
+    }
+    .nav-inner { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark {
+      width: 32px; height: 32px; display: grid; place-items: center;
+      border: 1px solid rgba(185,255,75,.55); color: var(--signal);
+      font: 900 1rem/1 monospace;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { color: #c4cdd1; text-decoration: none; font-size: .9rem; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--signal); }
+    .nav-status { display: inline-flex; align-items: center; gap: 8px; }
+    .nav-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 14px var(--signal); }
+
+    .hero { min-height: 760px; display: flex; align-items: center; padding: 104px 0 84px; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.22fr) minmax(340px, .78fr); gap: 72px; align-items: center; }
+    h1 { margin: 0; max-width: 800px; font-size: clamp(4rem, 9vw, 8.4rem); line-height: .88; letter-spacing: -.07em; font-weight: 860; }
+    h1 .outline { color: transparent; -webkit-text-stroke: 1.5px rgba(242,245,239,.6); }
+    .hero-copy { max-width: 650px; margin: 34px 0 0; color: #b8c2c7; font-size: clamp(1.05rem, 1.8vw, 1.32rem); }
+    .hero-copy strong { color: var(--paper); font-weight: 650; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 38px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 20px; border: 1px solid var(--signal); background: var(--signal); color: var(--ink); text-decoration: none; font-weight: 800; }
+    .button.alt { background: transparent; border-color: var(--line); color: var(--paper); }
+    .button:hover, .button:focus-visible { transform: translateY(-2px); }
+
+    .cluster { position: relative; min-height: 460px; }
+    .radar {
+      position: absolute; inset: 10px 0 0 auto; width: min(100%, 450px); aspect-ratio: 1;
+      border: 1px solid rgba(167,232,255,.35); border-radius: 50%; overflow: hidden;
+      background: radial-gradient(circle, transparent 0 19%, rgba(167,232,255,.14) 19.5% 20%, transparent 20.5% 39%, rgba(167,232,255,.12) 39.5% 40%, transparent 40.5% 59%, rgba(167,232,255,.1) 59.5% 60%, transparent 60.5%);
+    }
+    .radar::before, .radar::after { content: ""; position: absolute; background: rgba(167,232,255,.18); }
+    .radar::before { width: 1px; height: 100%; left: 50%; }
+    .radar::after { width: 100%; height: 1px; top: 50%; }
+    .sweep { position: absolute; inset: -1px; border-radius: 50%; background: conic-gradient(from 20deg, transparent 0 71%, rgba(185,255,75,.28) 86%, transparent 87%); animation: sweep 6s linear infinite; }
+    .core { position: absolute; inset: 50% auto auto 50%; width: 104px; height: 104px; transform: translate(-50%,-50%); border: 1px solid var(--signal); display: grid; place-items: center; background: rgba(6,9,11,.92); z-index: 2; }
+    .core b { color: var(--signal); font-size: 1.85rem; line-height: 1; }
+    .core small { color: var(--muted); display: block; text-align: center; margin-top: 8px; font-size: .62rem; letter-spacing: .12em; }
+    .reading { position: absolute; z-index: 3; min-width: 152px; padding: 13px 15px; border: 1px solid var(--line); background: rgba(13,18,21,.92); box-shadow: 0 18px 55px rgba(0,0,0,.35); }
+    .reading span { display: block; color: var(--muted); font-size: .67rem; letter-spacing: .1em; text-transform: uppercase; }
+    .reading strong { display: block; margin-top: 3px; font-size: 1rem; }
+    .r1 { top: 12%; left: 0; }
+    .r2 { right: -1%; top: 33%; }
+    .r3 { bottom: 6%; left: 10%; }
+    .signal-line { display: inline-block; width: 34px; height: 7px; margin-right: 8px; background: linear-gradient(90deg, var(--signal) 0 20%, transparent 20% 30%, var(--signal) 30% 60%, transparent 60% 70%, var(--signal) 70%); }
+
+    .metrics { border-bottom: 1px solid var(--line); }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .metric { padding: 32px 28px; border-right: 1px solid var(--line); }
+    .metric:first-child { border-left: 1px solid var(--line); }
+    .metric strong { display: block; font-size: clamp(1.55rem, 3vw, 2.8rem); line-height: 1; letter-spacing: -.04em; }
+    .metric span { display: block; margin-top: 9px; color: var(--muted); font-size: .82rem; }
+
+    section { padding: 118px 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: .72fr 1.28fr; gap: 70px; align-items: start; margin-bottom: 58px; }
+    h2 { margin: 0; font-size: clamp(2.5rem, 5vw, 5.2rem); line-height: .98; letter-spacing: -.055em; }
+    .lede { margin: 8px 0 0; color: #b8c2c7; font-size: 1.17rem; max-width: 650px; }
+
+    .integration { background: linear-gradient(135deg, rgba(167,232,255,.07), transparent 46%); }
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); }
+    .flow-step { min-height: 260px; padding: 28px; position: relative; border-right: 1px solid var(--line); }
+    .flow-step:last-child { border-right: 0; }
+    .flow-index { color: var(--ice); font: 700 .72rem/1 monospace; }
+    .flow-step h3 { margin: 70px 0 12px; font-size: 1.3rem; letter-spacing: -.02em; }
+    .flow-step p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .flow-step::after { content: "→"; position: absolute; right: -15px; top: 50%; z-index: 2; width: 30px; height: 30px; display: grid; place-items: center; background: var(--ink); color: var(--ice); }
+    .flow-step:last-child::after { display: none; }
+    .boundary { margin-top: 22px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; border-left: 3px solid var(--orange); background: rgba(255,138,69,.07); color: #c7ced1; }
+    .boundary strong { color: var(--orange); white-space: nowrap; }
+
+    .tech-layout { display: grid; grid-template-columns: minmax(300px,.72fr) minmax(0,1.28fr); gap: 36px; align-items: start; }
+    .stack-card { position: sticky; top: 100px; padding: 34px; background: var(--signal); color: var(--ink); }
+    .stack-card h3 { margin: 0; font-size: 2rem; line-height: 1.05; letter-spacing: -.04em; }
+    .stack-card p { margin: 18px 0 0; }
+    .stack-card .mono { display: block; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(6,9,11,.28); font-size: .75rem; }
+    .tech-list { border-top: 1px solid var(--line); }
+    .tech-row { display: grid; grid-template-columns: 72px 1fr; gap: 22px; padding: 30px 0; border-bottom: 1px solid var(--line); }
+    .tech-num { color: var(--muted); font-size: .74rem; }
+    .tech-row h3 { margin: 0 0 10px; font-size: 1.28rem; }
+    .tech-row p { margin: 0; color: var(--muted); }
+
+    .exit-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 24px; }
+    .exit-card { min-height: 390px; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); background: var(--panel); }
+    .exit-card.primary { background: var(--paper); color: var(--ink); }
+    .exit-card .big { font-size: clamp(3.8rem, 8vw, 7rem); line-height: .86; letter-spacing: -.07em; font-weight: 860; }
+    .exit-card p { margin: 0; max-width: 520px; font-size: 1.05rem; }
+    .exit-card:not(.primary) p { color: var(--muted); }
+    .milestones { display: grid; gap: 14px; margin-top: 26px; }
+    .milestone { display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .milestone span { color: var(--signal); font: 700 .71rem/1.4 monospace; }
+
+    .founders-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .founder { min-height: 290px; padding: 28px; border: 1px solid var(--line); background: linear-gradient(160deg, rgba(255,255,255,.055), transparent 60%); display: flex; flex-direction: column; justify-content: space-between; }
+    .founder-id { color: var(--muted); font: 700 .7rem/1 monospace; }
+    .founder h3 { margin: 0; font-size: clamp(1.45rem, 3vw, 2.2rem); line-height: 1.05; letter-spacing: -.04em; }
+    .founder p { margin: 12px 0 0; color: var(--muted); }
+
+    footer { padding: 44px 0; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 24px; color: var(--muted); font-size: .82rem; }
+    .footer-inner strong { color: var(--paper); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @keyframes sweep { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .sweep { animation: none; } .reveal { opacity: 1; transform: none; transition: none; } }
+
+    @media (max-width: 900px) {
+      .nav-links a:not(.nav-status) { display: none; }
+      .hero { min-height: auto; padding-top: 80px; }
+      .hero-grid, .section-head, .tech-layout, .exit-grid { grid-template-columns: 1fr; gap: 42px; }
+      .cluster { width: min(100%, 520px); margin-inline: auto; }
+      .metric-grid, .flow { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(3) { border-left: 1px solid var(--line); }
+      .flow-step:nth-child(2) { border-right: 0; }
+      .flow-step:nth-child(1), .flow-step:nth-child(2) { border-bottom: 1px solid var(--line); }
+      .flow-step:nth-child(2)::after { display: none; }
+      .stack-card { position: static; }
+      .founders-grid { grid-template-columns: 1fr; }
+      .founder { min-height: 220px; }
+    }
+    @media (max-width: 580px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .nav-inner { height: 62px; }
+      .nav-status { font-size: .72rem; }
+      h1 { font-size: clamp(3.5rem, 20vw, 5.3rem); }
+      section { padding: 84px 0; }
+      .cluster { min-height: 390px; }
+      .reading { min-width: 136px; padding: 10px 12px; }
+      .r2 { right: -3%; }
+      .metric-grid, .flow { grid-template-columns: 1fr; }
+      .metric, .metric:first-child, .metric:nth-child(3) { border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .metric:last-child { border-bottom: 0; }
+      .flow-step { min-height: 210px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .flow-step:last-child { border-bottom: 0; }
+      .flow-step::after { display: none; }
+      .flow-step h3 { margin-top: 42px; }
+      .boundary { display: block; }
+      .boundary strong { display: block; margin-bottom: 6px; }
+      .tech-row { grid-template-columns: 48px 1fr; }
+      .exit-card { min-height: 340px; padding: 28px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Sentry home"><span class="brand-mark">S</span><span>SENTRY</span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#integration">Integration</a>
+        <a href="#technology">Technology</a>
+        <a href="#founders">Founders</a>
+        <span class="nav-status mono">EXITED</span>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Driver intelligence / Edge-native</p>
+          <h1>Saw the risk.<br><span class="outline">Before impact.</span></h1>
+          <p class="hero-copy">Sentry turned a Raspberry Pi into a privacy-first driver intelligence layer—tracking attention, drowsiness, and phone use on-device, integrating the resulting signals with <strong>Super Cruise</strong>, and culminating in a <strong>five-figure exit</strong>.</p>
+          <div class="hero-actions">
+            <a class="button" href="#technology">Explore the stack</a>
+            <a class="button alt" href="#story">Read the story</a>
+          </div>
+        </div>
+        <div class="cluster" aria-label="Live driver state visualization">
+          <div class="radar"><div class="sweep"></div><div class="core"><div><b>94</b><small>QUALITY</small></div></div></div>
+          <div class="reading r1 mono"><span>Gaze vector</span><strong><i class="signal-line"></i>FORWARD</strong></div>
+          <div class="reading r2 mono"><span>Risk band</span><strong>NORMAL</strong></div>
+          <div class="reading r3 mono"><span>Pipeline</span><strong>EDGE / 22ms</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="metrics" aria-label="Key technical metrics">
+      <div class="wrap metric-grid">
+        <div class="metric"><strong>478</strong><span>face landmarks</span></div>
+        <div class="metric"><strong>20–30</strong><span>camera frames / sec</span></div>
+        <div class="metric"><strong>&lt;250ms</strong><span>target signal latency</span></div>
+        <div class="metric"><strong>5 figs.</strong><span>exit milestone</span></div>
+      </div>
+    </div>
+
+    <section class="integration" id="integration">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">Super Cruise integration</p><h2>From cabin signal to safer handoff.</h2></div>
+          <p class="lede">The integration transformed raw driver observations into a clean, confidence-scored state that an assisted-driving experience could use. Sentry stayed focused on the human; Super Cruise stayed focused on the road.</p>
+        </div>
+        <div class="flow reveal">
+          <article class="flow-step"><span class="flow-index">01 / SENSE</span><h3>Observe locally</h3><p>Camera frames entered a capacity-one buffer so stale images were dropped instead of accumulating.</p></article>
+          <article class="flow-step"><span class="flow-index">02 / INFER</span><h3>Build driver state</h3><p>Eye closure, gaze, head pose, yawns, nods, and phone evidence became calibrated temporal signals.</p></article>
+          <article class="flow-step"><span class="flow-index">03 / PACKAGE</span><h3>Score confidence</h3><p>A unified state separated observation quality, behavioral risk, severity, and alert policy.</p></article>
+          <article class="flow-step"><span class="flow-index">04 / INTEGRATE</span><h3>Complement Super Cruise</h3><p>Compact state events supported timely awareness and handoff logic without moving raw cabin video off-device.</p></article>
+        </div>
+        <div class="boundary reveal"><strong class="mono">SAFETY BOUNDARY</strong><span>Sentry augmented driver awareness; it did not steer, brake, or claim authority over vehicle controls. The integration was designed as a signal layer—not a replacement for OEM safety systems.</span></div>
+      </div>
+    </section>
+
+    <section id="technology">
+      <div class="wrap tech-layout">
+        <div class="stack-card reveal">
+          <p class="eyebrow" style="color:#06090b">Technical architecture</p>
+          <h3>One lightweight process. Clear boundaries. No cloud dependency.</h3>
+          <p>The system kept latency, privacy, and reliability aligned by running the core pipeline at the edge and emitting structured events instead of continuous video.</p>
+          <span class="mono">PICAMERA2 → MEDIAPIPE → STATE MACHINE → BLE</span>
+        </div>
+        <div class="tech-list reveal">
+          <article class="tech-row"><span class="tech-num mono">01</span><div><h3>Bounded real-time vision</h3><p>Picamera2 captured at 640×480 and 20–30 FPS. A latest-frame slot with capacity one applied backpressure automatically, preventing old frames from creating dangerous lag.</p></div></article>
+          <article class="tech-row"><span class="tech-num mono">02</span><div><h3>Face geometry, not face identity</h3><p>MediaPipe Face Landmarker supplied 478 landmarks. Sentry computed EAR, MAR, iris gaze, calibrated yaw/pitch/roll, blink duration, PERCLOS, yawn, and nod windows—without recognizing who the driver was.</p></div></article>
+          <article class="tech-row"><span class="tech-num mono">03</span><div><h3>Temporal evidence over single frames</h3><p>State machines used persistence, rolling windows, hysteresis, cooldowns, and stable-forward dwell. Low-quality or missing observations became “unknown,” never automatic evidence of risk.</p></div></article>
+          <article class="tech-row"><span class="tech-num mono">04</span><div><h3>Efficient phone-use detection</h3><p>A YOLOX-Nano / NCNN path ran on the driver crop at 5–10 Hz. Geometry, mount-region exclusion, gaze context, and persistence separated “phone present” from confirmed handheld use.</p></div></article>
+          <article class="tech-row"><span class="tech-num mono">05</span><div><h3>Versioned BLE transport</h3><p>The Raspberry Pi acted as a GATT peripheral, sending compact versioned packets to the mobile app. Routine telemetry was coalesced; critical alerts used a bounded priority queue.</p></div></article>
+          <article class="tech-row"><span class="tech-num mono">06</span><div><h3>Privacy by architecture</h3><p>Sentry stored numeric events and trip summaries by default—not continuous cabin video. Risk inference described observable behavior and never claimed to determine intoxication.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="story">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">The outcome</p><h2>Built lean.<br>Exited early.</h2></div>
+          <p class="lede">What began as a focused driver-safety prototype became a compact technical asset: a working edge architecture, a clear OEM integration story, and defensible privacy choices. That body of work led to a five-figure exit.</p>
+        </div>
+        <div class="exit-grid reveal">
+          <article class="exit-card primary"><span class="mono">OUTCOME / 2026</span><div class="big">5-FIGURE<br>EXIT</div><p>A meaningful first company outcome—created by turning constrained hardware, noisy human signals, and strict safety boundaries into a system another team could build on.</p></article>
+          <article class="exit-card"><div><p class="eyebrow">What transferred</p><h3 style="font-size:2rem;margin:0">More than a model.</h3></div><div class="milestones"><div class="milestone"><span>PIPELINE</span><p>Real-time capture, inference, state, alerts, and mobile transport.</p></div><div class="milestone"><span>PROTOCOL</span><p>Typed events and versioned BLE communication.</p></div><div class="milestone"><span>PLAYBOOK</span><p>A privacy-first integration approach for assisted driving.</p></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="founders">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">Co-founders</p><h2>Three builders.<br>One system.</h2></div>
+          <p class="lede">Sentry was co-founded by a team that moved fluidly across computer vision, embedded systems, mobile integration, product, and go-to-market.</p>
+        </div>
+        <div class="founders-grid reveal">
+          <article class="founder"><span class="founder-id">CO-FOUNDER / 01</span><div><h3>Aashrith<br>Tatineni</h3><p>Product &amp; systems</p></div></article>
+          <article class="founder"><span class="founder-id">CO-FOUNDER / 02</span><div><h3>Saatvik<br>Santosh</h3><p>Vision &amp; intelligence</p></div></article>
+          <article class="founder"><span class="founder-id">CO-FOUNDER / 03</span><div><h3>Ketav<br>Karthikeyan</h3><p>Platform &amp; integration</p></div></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner"><span><strong>SENTRY</strong> / Driver intelligence at the edge</span><span class="mono">BUILT → INTEGRATED → EXITED</span></div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
