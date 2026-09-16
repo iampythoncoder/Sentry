@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sentry built an on-device driver safety intelligence layer, integrated with Super Cruise, and reached a five-figure exit.">
-  <title>Sentry — Driver intelligence, built at the edge</title>
+  <meta name="description" content="Sentry partnered with General Motors to bring edge-native driver intelligence to the Super Cruise safety ecosystem—and reached a five-figure exit.">
+  <title>Sentry × GM — Driver intelligence for Super Cruise</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306090b'/%3E%3Cpath d='M16 19h32v7H24v5h19a7 7 0 0 1 7 7v7H16v-7h26v-5H23a7 7 0 0 1-7-7v-7Z' fill='%23b9ff4b'/%3E%3C/svg%3E">
   <style>
     :root {
@@ -118,6 +118,31 @@
     .lede { margin: 8px 0 0; color: #b8c2c7; font-size: 1.17rem; max-width: 650px; }
 
     .integration { background: linear-gradient(135deg, rgba(167,232,255,.07), transparent 46%); }
+    .ecosystem { padding: 84px 0; background: #071525; }
+    .ecosystem-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 28px; }
+    .ecosystem-head h2 { font-size: clamp(2.2rem, 4.8vw, 4.6rem); max-width: 760px; }
+    .ecosystem-note { max-width: 390px; margin: 0; color: #a9b7c5; }
+    .logo-wall { margin: 0; border: 1px solid rgba(255,255,255,.12); background: #071525; overflow: hidden; }
+    .logo-wall img { display: block; width: 100%; height: auto; }
+    .logo-wall figcaption { padding: 16px 18px; border-top: 1px solid rgba(255,255,255,.1); color: #8fa0ae; font-size: .78rem; }
+    .gm-stage {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      min-height: 440px;
+      margin-bottom: 68px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: linear-gradient(135deg, #0067b9 0%, #087bd1 46%, #082d4c 100%);
+      overflow: hidden;
+    }
+    .gm-lockup { padding: 46px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid rgba(255,255,255,.2); }
+    .gm-lockup .partnership-label { font: 750 .78rem/1.2 monospace; letter-spacing: .14em; text-transform: uppercase; }
+    .gm-lockup .gm-type { margin: 0; font-size: clamp(4rem, 8vw, 8rem); line-height: .78; letter-spacing: -.08em; }
+    .gm-lockup .times { color: var(--signal); }
+    .gm-story { padding: 52px; display: flex; flex-direction: column; justify-content: center; }
+    .gm-story h3 { max-width: 700px; margin: 0; font-size: clamp(2rem, 4vw, 4.3rem); line-height: .98; letter-spacing: -.055em; }
+    .gm-story p { max-width: 650px; margin: 24px 0 0; color: #d9e9f5; font-size: 1.08rem; }
+    .gm-proof { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .gm-proof span { padding: 9px 12px; border: 1px solid rgba(255,255,255,.28); font: 700 .7rem/1 monospace; letter-spacing: .08em; text-transform: uppercase; }
     .flow { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); }
     .flow-step { min-height: 260px; padding: 28px; position: relative; border-right: 1px solid var(--line); }
     .flow-step:last-child { border-right: 0; }
@@ -169,6 +194,10 @@
       .nav-links a:not(.nav-status) { display: none; }
       .hero { min-height: auto; padding-top: 80px; }
       .hero-grid, .section-head, .tech-layout, .exit-grid { grid-template-columns: 1fr; gap: 42px; }
+      .ecosystem-head { display: block; }
+      .ecosystem-note { margin-top: 18px; }
+      .gm-stage { grid-template-columns: 1fr; }
+      .gm-lockup { min-height: 310px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
       .cluster { width: min(100%, 520px); margin-inline: auto; }
       .metric-grid, .flow { grid-template-columns: repeat(2, 1fr); }
       .metric:nth-child(3) { border-left: 1px solid var(--line); }
@@ -199,6 +228,8 @@
       .boundary strong { display: block; margin-bottom: 6px; }
       .tech-row { grid-template-columns: 48px 1fr; }
       .exit-card { min-height: 340px; padding: 28px; }
+      .gm-lockup, .gm-story { padding: 28px; }
+      .gm-stage { min-height: 0; }
       .footer-inner { flex-direction: column; }
     }
   </style>
@@ -208,7 +239,8 @@
     <div class="wrap nav-inner">
       <a class="brand" href="#top" aria-label="Sentry home"><span class="brand-mark">S</span><span>SENTRY</span></a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#integration">Integration</a>
+        <a href="#integration">GM partnership</a>
+        <a href="#ecosystem">Ecosystem</a>
         <a href="#technology">Technology</a>
         <a href="#founders">Founders</a>
         <span class="nav-status mono">EXITED</span>
@@ -220,9 +252,9 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Driver intelligence / Edge-native</p>
-          <h1>Saw the risk.<br><span class="outline">Before impact.</span></h1>
-          <p class="hero-copy">Sentry turned a Raspberry Pi into a privacy-first driver intelligence layer—tracking attention, drowsiness, and phone use on-device, integrating the resulting signals with <strong>Super Cruise</strong>, and culminating in a <strong>five-figure exit</strong>.</p>
+          <p class="eyebrow">Sentry × General Motors / Super Cruise</p>
+          <h1>Built with GM.<br><span class="outline">For Super Cruise.</span></h1>
+          <p class="hero-copy">Sentry partnered with <strong>General Motors</strong> to bring a privacy-first driver intelligence layer into the <strong>Super Cruise safety ecosystem</strong>—tracking attention, drowsiness, and phone use on-device before culminating in a five-figure exit.</p>
           <div class="hero-actions">
             <a class="button" href="#technology">Explore the stack</a>
             <a class="button alt" href="#story">Read the story</a>
@@ -232,31 +264,48 @@
           <div class="radar"><div class="sweep"></div><div class="core"><div><b>94</b><small>QUALITY</small></div></div></div>
           <div class="reading r1 mono"><span>Gaze vector</span><strong><i class="signal-line"></i>FORWARD</strong></div>
           <div class="reading r2 mono"><span>Risk band</span><strong>NORMAL</strong></div>
-          <div class="reading r3 mono"><span>Pipeline</span><strong>EDGE / 22ms</strong></div>
+          <div class="reading r3 mono"><span>Integration</span><strong>GM / SUPER CRUISE</strong></div>
         </div>
       </div>
     </section>
 
     <div class="metrics" aria-label="Key technical metrics">
       <div class="wrap metric-grid">
-        <div class="metric"><strong>478</strong><span>face landmarks</span></div>
-        <div class="metric"><strong>20–30</strong><span>camera frames / sec</span></div>
+        <div class="metric"><strong>GM</strong><span>automotive partner</span></div>
+        <div class="metric"><strong>Super Cruise</strong><span>integration program</span></div>
         <div class="metric"><strong>&lt;250ms</strong><span>target signal latency</span></div>
         <div class="metric"><strong>5 figs.</strong><span>exit milestone</span></div>
       </div>
     </div>
 
+    <section class="ecosystem" id="ecosystem">
+      <div class="wrap">
+        <div class="ecosystem-head reveal">
+          <div><p class="eyebrow">Sentry ecosystem</p><h2>Built across mobility, safety, and research.</h2></div>
+          <p class="ecosystem-note">Organizations and institutions represented across Sentry’s journey. GM is Sentry’s Super Cruise integration partner.</p>
+        </div>
+        <figure class="logo-wall reveal">
+          <img src="sentry-ecosystem.png" alt="NC State Engineering, Duke Pratt School of Engineering, Wolfram, AAA, General Motors, NHTSA, the Safety and Health Council of North Carolina, and SambaSafety logos">
+          <figcaption>Organization names and marks belong to their respective owners.</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section class="integration" id="integration">
       <div class="wrap">
+        <div class="gm-stage reveal">
+          <div class="gm-lockup"><span class="partnership-label">Automotive partnership</span><h2 class="gm-type">GM<br><span class="times">×</span> SENTRY</h2><span class="mono">SUPER CRUISE / DRIVER STATE</span></div>
+          <div class="gm-story"><p class="eyebrow" style="color:#fff">The defining integration</p><h3>Human-state intelligence for hands-free driving.</h3><p>Our work with General Motors connected Sentry’s on-device understanding of the driver to the Super Cruise experience. We designed a fast, privacy-aware signal layer that could communicate when attention changed—without exporting continuous cabin video.</p><div class="gm-proof"><span>On-device inference</span><span>Confidence-scored state</span><span>Privacy-first events</span></div></div>
+        </div>
         <div class="section-head reveal">
-          <div><p class="eyebrow">Super Cruise integration</p><h2>From cabin signal to safer handoff.</h2></div>
-          <p class="lede">The integration transformed raw driver observations into a clean, confidence-scored state that an assisted-driving experience could use. Sentry stayed focused on the human; Super Cruise stayed focused on the road.</p>
+          <div><p class="eyebrow">GM partnership / Super Cruise</p><h2>From cabin signal to safer handoff.</h2></div>
+          <p class="lede">Together with GM, we transformed raw driver observations into a clean, confidence-scored state for the Super Cruise safety ecosystem. Sentry stayed focused on the human; Super Cruise stayed focused on the road.</p>
         </div>
         <div class="flow reveal">
           <article class="flow-step"><span class="flow-index">01 / SENSE</span><h3>Observe locally</h3><p>Camera frames entered a capacity-one buffer so stale images were dropped instead of accumulating.</p></article>
           <article class="flow-step"><span class="flow-index">02 / INFER</span><h3>Build driver state</h3><p>Eye closure, gaze, head pose, yawns, nods, and phone evidence became calibrated temporal signals.</p></article>
           <article class="flow-step"><span class="flow-index">03 / PACKAGE</span><h3>Score confidence</h3><p>A unified state separated observation quality, behavioral risk, severity, and alert policy.</p></article>
-          <article class="flow-step"><span class="flow-index">04 / INTEGRATE</span><h3>Complement Super Cruise</h3><p>Compact state events supported timely awareness and handoff logic without moving raw cabin video off-device.</p></article>
+          <article class="flow-step"><span class="flow-index">04 / INTEGRATE</span><h3>Connect to Super Cruise</h3><p>Compact state events supported timely awareness and handoff logic for GM without moving raw cabin video off-device.</p></article>
         </div>
         <div class="boundary reveal"><strong class="mono">SAFETY BOUNDARY</strong><span>Sentry augmented driver awareness; it did not steer, brake, or claim authority over vehicle controls. The integration was designed as a signal layer—not a replacement for OEM safety systems.</span></div>
       </div>
